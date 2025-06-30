@@ -2,7 +2,7 @@
 // Инициализация IndexedDB
 window.db = (function() {
     const DB_NAME = "CompetitionDB";
-    const DB_VERSION = 1;
+    const DB_VERSION = 2;
     const STORE_NAME = "applicants";
 
     let db;
