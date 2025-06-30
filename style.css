@@ -224,18 +224,18 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-#universities-table th, #universities-table td {
-    padding: 10px 15px;
-}
-
-/* Адаптивность для новых представлений */
+/* Адаптивность */
 @media (max-width: 768px) {
-    .main-nav {
-        flex-wrap: wrap;
+    .data-form {
+        grid-template-columns: 1fr;
     }
     
-    .nav-button {
-        flex-grow: 1;
-        margin-bottom: 5px;
+    .form-actions {
+        grid-column: span 1;
+    }
+    
+    .data-table {
+        display: block;
+        overflow-x: auto;
     }
 }
