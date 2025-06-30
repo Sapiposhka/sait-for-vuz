@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учет конкурса в вузы</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Учет и контроль конкурса в вузы</h1>
+        </header>
+        
+        <nav class="main-nav">
+            <button id="btn-show-list" class="nav-button active">Список абитуриентов</button>
+            <button id="btn-add-new" class="nav-button">Добавить абитуриента</button>
+            <button id="btn-show-universities" class="nav-button">Список ВУЗов</button>
+            <button id="btn-add-university" class="nav-button">Добавить ВУЗ</button>
+        </nav>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Поиск по ФИО или баллам..." class="search-input">
+            <button id="search-btn" class="search-button">Найти</button>
+        </div>
+        
+        <main class="content-area">
+            <!-- Список абитуриентов -->
+            <div id="list-view" class="view">
+                <table id="applicants-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Фото</th>
+                            <th>ФИО</th>
+                            <th>Дата рождения</th>
+                            <th>Баллы</th>
+                            <th>Приоритеты</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicants-list">
+                        <!-- Данные будут загружены через JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Форма добавления/редактирования -->
+            <div id="form-view" class="view hidden">
+                <form id="applicant-form" class="data-form">
+                    <input type="hidden" id="applicant-id">
+                    
+                    <div class="form-group">
+                        <label for="full-name">ФИО*</label>
+                        <input type="text" id="full-name" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birth-date">Дата рождения*</label>
+                        <input type="date" id="birth-date" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="score">Сумма баллов ЕГЭ*</label>
+                        <input type="number" id="score" min="0" max="400" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priorities">Приоритеты (через запятую)*</label>
+                        <textarea id="priorities" required class="form-control"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="status">Статус</label>
+                        <select id="status" class="form-control">
+                            <option value="pending">На рассмотрении</option>
+                            <option value="accepted">Зачислен</option>
+                            <option value="rejected">Отклонен</option>
+                            <option value="waiting">В резерве</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="photo">Фото</label>
+                        <input type="file" id="photo" accept="image/*" class="form-control">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="save-btn" class="form-button primary">Сохранить</button>
+                        <button type="button" id="cancel-btn" class="form-button">Отмена</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Статистика -->
+            <div id="stats-view" class="view hidden">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Всего абитуриентов</h3>
+                        <p id="total-applicants">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Средний балл</h3>
+                        <p id="avg-score">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Зачислено</h3>
+                        <p id="accepted-count">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>В резерве</h3>
+                        <p id="waiting-count">0</p>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="stats-chart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div id="universities-view" class="view hidden">
+                <table id="universities-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Регион</th>
+                            <th>Город</th>
+                            <th>Адрес</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="universities-list">
+                        <!-- Данные будут загружены через JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="university-form-view" class="view hidden">
+                <form id="university-form" class="data-form">
+                    <input type="hidden" id="university-id">
+                    
+                    <div class="form-group">
+                        <label for="university-name">Название ВУЗа*</label>
+                        <input type="text" id="university-name" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="university-region">Регион*</label>
+                        <input type="text" id="university-region" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="university-city">Город*</label>
+                        <input type="text" id="university-city" required class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="university-street">Улица</label>
+                        <input type="text" id="university-street" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="university-building">Дом/корпус</label>
+                        <input type="text" id="university-building" class="form-control">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="save-university-btn" class="form-button primary">Сохранить</button>
+                        <button type="button" id="cancel-university-btn" class="form-button">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="db.js"></script>
+</body>
+</html>
